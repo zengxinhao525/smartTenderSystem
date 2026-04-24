@@ -1,0 +1,23 @@
+# 1. 忽略刚才创建的密钥文件（最重要！）
+.env
+
+# 2. 忽略 Python 的虚拟环境文件夹
+# 你的截图里叫 venv，这是标准写法
+venv/
+env/
+ENV/
+
+# 3. 忽略 Python 编译产生的缓存文件
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# 4. 忽略 IDE（编辑器）产生的配置文件
+# 如果你用 VS Code，它会生成 .vscode 文件夹
+.vscode/
+# 如果你用 PyCharm，它会产生 .idea 文件夹
+.idea/
+
+# 5. 忽略日志文件和数据库文件（如果有）
+*.log
+*.db
