@@ -1,9 +1,12 @@
 fastapi>=0.104.0
 uvicorn>=0.23.0
+sse-starlette>=2.1.0
 langgraph>=0.0.31
 langchain>=0.1.0
 langchain-community>=0.0.17
-langchain-openai>=0.0.5  # 假设使用 OpenAI，也可替换为其他
+langchain-openai>=0.0.5
 chromadb>=0.5.3
-pymupdf>=1.23.21        # 用于 PDF 解析
-python-multipart>=0.0.6 # 用于文件上传
+pymupdf>=1.23.21
+python-multipart>=0.0.6
+python-docx>=1.1.0
+python-dotenv>=1.0.0
