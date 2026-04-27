@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from app.services.llm import invoke_json
+from services.llm import invoke_json
 
 
 def _heuristic_review(draft: str) -> dict[str, Any]:

@@ -3,7 +3,7 @@ from __future__ import annotations
 from textwrap import dedent
 from typing import Any
 
-from app.services.llm import invoke_prompt
+from services.llm import invoke_prompt
 
 
 def _fallback_tech_response(context: str, bid_info: dict[str, Any]) -> str:

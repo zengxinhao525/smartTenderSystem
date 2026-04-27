@@ -1,8 +1,8 @@
 from fastapi import Body, FastAPI
 
-from app.api.routes import router
-from app.graph.graph import build_graph
-from app.graph.state import create_initial_state
+from api.routes import router
+from graph.graph import build_graph
+from graph.state import create_initial_state
 
 app = FastAPI(
     title="智能招标系统后端",

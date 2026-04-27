@@ -1,10 +1,10 @@
 from fastapi import APIRouter, HTTPException
 
-from app.api.sse import stream_graph
-from app.graph.graph import build_graph
-from app.graph.nodes import finalize_after_human_review, run_revision_cycle
-from app.graph.state import create_initial_state, merge_state
-from app.services.exporter import export_word
+from api.sse import stream_graph
+from graph.graph import build_graph
+from graph.nodes import finalize_after_human_review, run_revision_cycle
+from graph.state import create_initial_state, merge_state
+from services.exporter import export_word
 
 router = APIRouter()
 

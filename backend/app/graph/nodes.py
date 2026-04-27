@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-from app.agents.biz_agent import biz_agent
-from app.agents.review_agent import review_agent
-from app.agents.tech_agent import tech_agent
-from app.services.parser import extract_bid_info, parse_pdf
-from app.services.retriever import retrieve_context
+from agents.biz_agent import biz_agent
+from agents.review_agent import review_agent
+from agents.tech_agent import tech_agent
+from services.parser import extract_bid_info, parse_pdf
+from services.retriever import retrieve_context
 
 from .state import GraphState, merge_state
 

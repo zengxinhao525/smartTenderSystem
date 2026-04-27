@@ -2,7 +2,7 @@ import json
 
 from sse_starlette.sse import EventSourceResponse
 
-from app.graph.graph import build_graph
+from graph.graph import build_graph
 
 # SSE 使用与常规 API 路由相同的工作流定义。
 graph = build_graph()
