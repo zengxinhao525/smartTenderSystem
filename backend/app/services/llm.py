@@ -27,6 +27,26 @@ def _load_local_env() -> None:
     _ENV_LOADED = True
 
 
+def resolve_model_name() -> str:
+    """
+    根据当前环境解析默认模型名。
+    如果走的是 DashScope OpenAI 兼容端点且用户未显式配置模型，
+    优先回退到更符合该网关的默认模型。
+    """
+
+    _load_local_env()
+
+    configured_model = os.getenv("OPENAI_MODEL")
+    if configured_model:
+        return configured_model
+
+    base_url = os.getenv("OPENAI_API_BASE", "")
+    if "dashscope.aliyuncs.com" in base_url:
+        return "qwen-plus"
+
+    return "gpt-4o-mini"
+
+
 def _build_chat_model(temperature: float):
     """
     延迟构建聊天模型。
@@ -46,7 +66,7 @@ def _build_chat_model(temperature: float):
         return None
 
     kwargs = {
-        "model": os.getenv("OPENAI_MODEL", "gpt-4o-mini"),
+        "model": resolve_model_name(),
         "temperature": temperature,
     }
 

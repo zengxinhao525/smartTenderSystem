@@ -1,4 +1,5 @@
 from fastapi import Body, FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from api.routes import router
 from graph.graph import build_graph
@@ -7,6 +8,17 @@ from graph.state import create_initial_state
 app = FastAPI(
     title="智能招标系统后端",
     description="用于招标文件解析、起草、审查和导出的后端服务。",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # 在启动时只编译一次工作流，这样每次请求都可以复用

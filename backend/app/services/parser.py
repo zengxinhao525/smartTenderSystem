@@ -3,7 +3,10 @@ from __future__ import annotations
 import re
 from typing import Any
 
-import fitz
+try:
+    import pymupdf as fitz
+except ImportError:  # pragma: no cover
+    import fitz
 
 from .llm import invoke_json
 

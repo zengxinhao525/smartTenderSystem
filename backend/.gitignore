@@ -6,6 +6,7 @@
 venv/
 env/
 ENV/
+.deps/
 
 # 3. 忽略 Python 编译产生的缓存文件
 __pycache__/

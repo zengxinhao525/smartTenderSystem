@@ -1,15 +1,60 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, File, HTTPException, UploadFile
 
+from api.schemas import ChatRequest, ChatResponse, UploadAnalysisResponse
 from api.sse import stream_graph
 from graph.graph import build_graph
 from graph.nodes import finalize_after_human_review, run_revision_cycle
 from graph.state import create_initial_state, merge_state
+from services.chat import chat_with_history, resolve_chat_model_name
 from services.exporter import export_word
+from services.uploads import save_uploaded_pdf
 
 router = APIRouter()
 
 # 在这里保留一个已编译的图对象，方便路由处理器复用同一套工作流。
 graph = build_graph()
+
+
+@router.post("/chat", response_model=ChatResponse)
+async def chat(payload: ChatRequest) -> ChatResponse:
+    """
+    面向前端聊天页的直接问答接口。
+    支持传入最近若干轮 history，后端会结合历史消息生成真实回复。
+    """
+
+    reply, fallback = chat_with_history(
+        payload.message.strip(),
+        payload.history,
+    )
+    return ChatResponse(
+        reply=reply,
+        model=resolve_chat_model_name(),
+        fallback=fallback,
+    )
+
+
+@router.post("/upload", response_model=UploadAnalysisResponse)
+async def upload_and_analyze(file: UploadFile = File(...)) -> UploadAnalysisResponse:
+    """
+    接收前端上传的 PDF，保存到本地后直接触发完整解析流程。
+    """
+
+    try:
+        saved_path = await save_uploaded_pdf(file)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+    state = graph.invoke(create_initial_state(str(saved_path)))
+
+    return UploadAnalysisResponse(
+        file_name=file.filename or saved_path.name,
+        file_path=str(saved_path),
+        bid_info=state.get("bid_info", {}),
+        draft=state.get("draft", ""),
+        review=state.get("review", ""),
+        approved=bool(state.get("approved", False)),
+        need_human=bool(state.get("need_human", False)),
+    )
 
 
 @router.get("/stream")
